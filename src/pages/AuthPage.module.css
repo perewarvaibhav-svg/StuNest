@@ -1,0 +1,442 @@
+/* Shared CSS for Login and Signup pages */
+
+.authPage {
+  display: flex;
+  min-height: 100vh;
+  background-color: var(--color-background);
+}
+
+/* =====================
+   LEFT VISUAL PANEL
+   ===================== */
+.visualPanel {
+  display: none;
+  position: relative;
+  flex: 1;
+  overflow: hidden;
+}
+
+@media (min-width: 1024px) {
+  .visualPanel {
+    display: flex;
+  }
+}
+
+.visualImg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.visualOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(17,24,39,0.5) 0%, rgba(17,24,39,0.85) 100%);
+  z-index: 1;
+}
+
+.visualContent {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 3rem;
+  color: white;
+  width: 100%;
+}
+
+.visualLogo {
+  position: absolute;
+  top: 2.5rem;
+  left: 3rem;
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: white;
+  letter-spacing: -0.02em;
+}
+
+.visualLogo span {
+  color: #FF5A6E;
+}
+
+.visualHeading {
+  font-size: 2.25rem;
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+  max-width: 400px;
+}
+
+.visualSubtext {
+  font-size: 1.0625rem;
+  color: rgba(255,255,255,0.75);
+  margin-bottom: 2.5rem;
+}
+
+.visualStats {
+  display: flex;
+  gap: 2.5rem;
+}
+
+.visualStat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.visualStat strong {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #FF5A6E;
+}
+
+.visualStat span {
+  font-size: 0.875rem;
+  color: rgba(255,255,255,0.7);
+}
+
+/* Testimonial (signup) */
+.testimonial {
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 20px;
+  padding: 1.5rem;
+}
+
+.testimonialText {
+  font-size: 1.0625rem;
+  color: rgba(255,255,255,0.9);
+  line-height: 1.7;
+  margin-bottom: 1.25rem;
+  font-style: italic;
+}
+
+.testimonialAuthor {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+}
+
+.testimonialAvatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #FF5A6E, #FF8A8E);
+  color: white;
+  font-size: 1.25rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.testimonialAuthor strong {
+  display: block;
+  color: white;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.testimonialAuthor span {
+  font-size: 0.875rem;
+  color: rgba(255,255,255,0.65);
+}
+
+
+/* =====================
+   RIGHT FORM PANEL
+   ===================== */
+.formPanel {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  overflow-y: auto;
+}
+
+.formWrapper {
+  width: 100%;
+  max-width: 480px;
+}
+
+/* Mobile-only logo */
+.mobileLogo {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--color-text);
+  letter-spacing: -0.02em;
+  margin-bottom: 2rem;
+}
+
+.mobileLogo span { color: #FF5A6E; }
+
+@media (min-width: 1024px) {
+  .mobileLogo { display: none; }
+}
+
+.formTitle {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--color-text);
+  margin-bottom: 0.5rem;
+}
+
+.formSubtitle {
+  font-size: 1.0625rem;
+  color: var(--color-text-muted);
+  margin-bottom: 2rem;
+}
+
+/* Role Toggle */
+.roleToggle {
+  display: flex;
+  background-color: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  padding: 0.375rem;
+  margin-bottom: 1.75rem;
+  gap: 0.375rem;
+}
+
+.roleBtn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1rem;
+  border-radius: var(--radius-full);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  background: none;
+  border: none;
+  transition: all 0.2s;
+}
+
+.roleBtnActive {
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+/* Google Button */
+.googleBtn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 0.875rem;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text);
+  transition: all 0.2s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+
+.googleBtn:hover {
+  border-color: #4285F4;
+  box-shadow: 0 4px 12px rgba(66,133,244,0.15);
+}
+
+/* Divider */
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 1.5rem 0;
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background-color: var(--color-border);
+}
+
+/* Form */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.errorMsg {
+  background-color: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  color: #DC2626;
+  padding: 0.875rem 1rem;
+  border-radius: var(--radius-md);
+  font-size: 0.9375rem;
+  font-weight: 500;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.labelRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.label {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.required {
+  color: #FF5A6E;
+}
+
+.forgotLink {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #FF5A6E;
+}
+
+.forgotLink:hover { text-decoration: underline; }
+
+.inputWrapper {
+  display: flex;
+  align-items: center;
+  background-color: var(--color-surface);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 0 1rem;
+  height: 52px;
+  transition: all 0.2s;
+}
+
+.inputWrapper:focus-within {
+  border-color: #FF5A6E;
+  box-shadow: 0 0 0 3px rgba(255, 90, 110, 0.12);
+}
+
+.inputIcon {
+  color: var(--color-text-muted);
+  margin-right: 0.75rem;
+  flex-shrink: 0;
+}
+
+.input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 1rem;
+  color: var(--color-text);
+  height: 100%;
+}
+
+.input::placeholder { color: #9CA3AF; }
+
+.eyeBtn {
+  color: var(--color-text-muted);
+  display: flex;
+  align-items: center;
+  padding: 0.25rem;
+  transition: color 0.2s;
+}
+
+.eyeBtn:hover { color: var(--color-text); }
+
+/* Password Strength */
+.passwordStrength {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.strengthBar {
+  flex: 1;
+  height: 4px;
+  border-radius: 2px;
+}
+
+.strengthWeak { background-color: #EF4444; width: 40%; }
+.strengthGood { background-color: #16A34A; width: 100%; }
+.strengthWeakText { font-size: 0.8125rem; font-weight: 600; color: #EF4444; }
+.strengthGoodText { font-size: 0.8125rem; font-weight: 600; color: #16A34A; }
+
+/* Terms */
+.termsText {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+}
+
+/* Submit Button */
+.submitBtn {
+  width: 100%;
+  height: 54px;
+  background: linear-gradient(135deg, #FF5A6E 0%, #FF8A8E 100%);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 1.0625rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  box-shadow: 0 4px 14px rgba(255, 90, 110, 0.3);
+  margin-top: 0.5rem;
+}
+
+.submitBtn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 90, 110, 0.4);
+}
+
+.submitBtn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Loading Spinner */
+.spinner {
+  width: 22px;
+  height: 22px;
+  border: 3px solid rgba(255,255,255,0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Switch Auth */
+.switchAuth {
+  text-align: center;
+  font-size: 1rem;
+  color: var(--color-text-muted);
+  margin-top: 1.5rem;
+}
+
+.switchLink {
+  color: #FF5A6E;
+  font-weight: 700;
+}
+
+.switchLink:hover { text-decoration: underline; }
