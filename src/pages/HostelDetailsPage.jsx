@@ -5,6 +5,7 @@ import { useHostelById } from '../hooks/useHostels';
 import { reviewsApi, enquiriesApi, qaApi, grievancesApi } from '../lib/api';
 import { useAuth } from '../context/AuthContext';
 import AIChatbot from '../components/AIChatbot';
+import { buildMapEmbedUrl, buildDirectionsUrl, buildSearchUrl, verifyHostelDistance } from '../lib/maps';
 import styles from './HostelDetailsPage.module.css';
 
 const FACILITY_ICONS = { ac:'❄️', wifi:'📶', food:'🍽️', laundry:'👕', security:'🔒', gym:'💪', library:'📚', parking:'🚗', pool:'🏊', balcony:'🌿', 'study table':'📖' };
@@ -70,7 +71,9 @@ export default function HostelDetailsPage() {
 
   const whatsappNum = (hostel.whatsapp||hostel.phone||'').replace(/\D/g,'');
   const whatsappUrl = `https://wa.me/${whatsappNum}?text=Hi, I'm interested in ${hostel.name} on StuNest.`;
-  const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${hostel.lat},${hostel.lng}`;
+  const mapsUrl = buildDirectionsUrl(hostel.lat, hostel.lng);
+  const mapsSearchUrl = buildSearchUrl(hostel.name, hostel.address);
+  const mapEmbedUrl = buildMapEmbedUrl(hostel.lat, hostel.lng, 15);
 
   const sendEnquiry = async (e) => {
     e.preventDefault();
@@ -155,9 +158,11 @@ export default function HostelDetailsPage() {
                 </div>
               </div>
               <div className={styles.tagRow}>
-                <span className={styles.tag}>{hostel.category==='both'?'Unisex':hostel.category==='boys'?'👦 Boys':'👧 Girls'}</span>
+                <span className={styles.tag}>{hostel.category==='both'?'Unisex':hostel.category==='boys'?'Boys':'Girls'}</span>
                 <span className={styles.tag}>{hostel.type?.toUpperCase()}</span>
-                {hostel.distance!=null && <span className={styles.tagDist}><MapPin size={12}/>{hostel.distance} km from college</span>}
+                {hostel.distance!=null && (
+                  <span className={styles.tagDist}><MapPin size={12}/>{hostel.distance} km from campus</span>
+                )}
                 {hostel.vacancy_count!=null && (
                   <span className={`${styles.vacTag} ${hostel.vacancy_count===0?styles.vacFull:hostel.vacancy_count<=2?styles.vacLow:styles.vacOk}`}>
                     {hostel.vacancy_count===0?'Fully Booked':`${hostel.vacancy_count} Rooms Available`}
@@ -179,16 +184,24 @@ export default function HostelDetailsPage() {
                 <h2 className={styles.secTitle}>About this property</h2>
                 <p className={styles.desc}>{hostel.description}</p>
 
-                {/* Map */}
-                <h2 className={styles.secTitle} style={{marginTop:'1.5rem'}}>Location</h2>
+                {/* Map + Distance Verification */}
+                <h2 className={styles.secTitle} style={{marginTop:'1.5rem'}}>Location on Map</h2>
                 <div className={styles.mapBox}>
                   <iframe
                     title="Hostel location"
-                    src={`https://maps.google.com/maps?q=${hostel.lat},${hostel.lng}&z=15&output=embed`}
+                    src={mapEmbedUrl}
                     width="100%" height="100%" style={{border:0}} allowFullScreen loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
                   />
                 </div>
-                <a href={mapsUrl} target="_blank" rel="noopener noreferrer" className={styles.dirBtn}><Navigation size={16}/> Open in Google Maps</a>
+                <div className={styles.mapActions}>
+                  <a href={mapsUrl} target="_blank" rel="noopener noreferrer" className={styles.dirBtn}>
+                    <Navigation size={16}/> Get Walking Directions
+                  </a>
+                  <a href={mapsSearchUrl} target="_blank" rel="noopener noreferrer" className={styles.searchMapBtn}>
+                    <MapPin size={16}/> View on Google Maps
+                  </a>
+                </div>
               </div>
             )}
 

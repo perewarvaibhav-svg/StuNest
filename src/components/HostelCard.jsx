@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { MapPin, Star, Heart, GitCompare, Navigation, MessageCircle, Eye, CheckCircle, Zap } from 'lucide-react';
+import { MapPin, Star, Heart, GitCompare, Navigation, CheckCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { buildDirectionsUrl, buildSearchUrl, verifyHostelDistance } from '../lib/maps';
 import styles from './HostelCard.module.css';
 
 const FAC_ICONS = {
@@ -21,10 +22,15 @@ function HostelCard({ hostel, collegeCoords, onShortlist, onCompare, isShortlist
   const whatsappNum = (hostel.whatsapp || hostel.phone || '').replace(/\D/g, '');
   const whatsappUrl = `https://wa.me/${whatsappNum}?text=Hi, I am interested in ${hostel.name} listed on StuNest.`;
 
-  let mapUrl = `https://www.google.com/maps/search/?api=1&query=${hostel.lat},${hostel.lng}`;
-  if (collegeCoords) {
-    mapUrl = `https://www.google.com/maps/dir/?api=1&origin=${collegeCoords.lat},${collegeCoords.lng}&destination=${hostel.lat},${hostel.lng}`;
-  }
+  // Google Maps: if a college is selected, show directions from college → hostel
+  const mapUrl = collegeCoords
+    ? buildDirectionsUrl(hostel.lat, hostel.lng, collegeCoords.lat, collegeCoords.lng)
+    : buildSearchUrl(hostel.name, hostel.address);
+
+  // Verify if the listed distance is accurate (within 0.5 km of haversine)
+  const distVerification = collegeCoords
+    ? verifyHostelDistance(hostel, collegeCoords.lat, collegeCoords.lng)
+    : null;
 
   const handleLike = (e) => {
     e.preventDefault();
@@ -98,9 +104,19 @@ function HostelCard({ hostel, collegeCoords, onShortlist, onCompare, isShortlist
         <div className={styles.location}>
           <MapPin size={14} className={styles.locationIcon} />
           <span>{hostel.address}</span>
-          {hostel.distance != null && (
+          {distVerification ? (
+            <span
+              className={styles.distancePill}
+              title={distVerification.verified
+                ? `Verified: ${distVerification.computedKm} km (straight line)`
+                : `Listed ${distVerification.listedKm} km · Computed ${distVerification.computedKm} km`}
+              style={distVerification.verified ? {} : { background:'rgba(245,158,11,0.12)', color:'#B45309' }}
+            >
+              {distVerification.verified ? '✓' : '~'} {distVerification.computedKm} km
+            </span>
+          ) : hostel.distance != null ? (
             <span className={styles.distancePill}>{hostel.distance} km</span>
-          )}
+          ) : null}
         </div>
 
         {/* Facilities */}
