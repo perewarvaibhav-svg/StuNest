@@ -1,8 +1,9 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './index.css';
 
-// Layouts
+// Layouts & Guards
 import MainLayout from './layouts/MainLayout';
+import ProtectedRoute from './components/ProtectedRoute';
 
 // Pages
 import LandingPage from './pages/LandingPage';
@@ -21,27 +22,39 @@ function App() {
   return (
     <Router>
       <Routes>
-        {/* Standalone full-screen auth pages (no navbar/footer) */}
+        {/* Standalone auth pages */}
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
 
-        {/* All other pages with shared Navbar + Footer */}
+        {/* Public pages with shared Navbar + Footer */}
         <Route path="/" element={<MainLayout />}>
           <Route index element={<LandingPage />} />
           <Route path="search" element={<SearchPage />} />
           <Route path="hostel/:id" element={<HostelDetailsPage />} />
-          <Route path="shortlist" element={<ShortlistPage />} />
           <Route path="compare" element={<ComparePage />} />
           <Route path="roommate" element={<RoommatePage />} />
-          <Route path="student" element={<StudentDashboard />} />
+
+          {/* Protected: any logged-in user */}
+          <Route path="shortlist" element={
+            <ProtectedRoute><ShortlistPage /></ProtectedRoute>
+          } />
+          <Route path="student" element={
+            <ProtectedRoute><StudentDashboard /></ProtectedRoute>
+          } />
         </Route>
 
-        {/* Dashboards with their own layouts */}
-        <Route path="/owner/*" element={<OwnerDashboard />} />
-        <Route path="/admin/*" element={<AdminDashboard />} />
+        {/* Protected dashboards */}
+        <Route path="/owner/*" element={
+          <ProtectedRoute roles={['owner', 'admin']}><OwnerDashboard /></ProtectedRoute>
+        } />
+        <Route path="/admin/*" element={
+          <ProtectedRoute roles={['admin']}><AdminDashboard /></ProtectedRoute>
+        } />
       </Routes>
     </Router>
   );
 }
 
 export default App;
+
+
